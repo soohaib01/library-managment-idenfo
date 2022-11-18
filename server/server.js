@@ -19,6 +19,7 @@ app.use(cors({
     origin: 'http://localhost:3000'
 }));
 
+app.get("/", (req,res) => res.send("API Deployed")) 
 // @Registering URLS
 app.use("/api/books", bookRoute );
 app.use("/api/users", userRoute)
