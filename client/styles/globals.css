@@ -1,0 +1,35 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  height: 100vh;
+  background-color: #fff!important;
+}
+.Login__page__container{
+display: flex;
+height: 100vh;
+
+justify-content: center;
+align-items: center;
+}
+
+.gap-primary{
+  margin-top: 2rem;
+}
+
+.btn-primary {
+  background: #2B6CB0 !important;
+  border-color:#2B6CB0 !important ;
+  outline: none !important;
+}
+
+.card{
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px !important;
+}
+
+.navbar{
+  background-color:  transparent !important;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px !important; 
+}
