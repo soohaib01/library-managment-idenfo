@@ -18,10 +18,11 @@ const BookDetail = () => {
 
   const router = useRouter();
   const { id } = router.query;
-  if (id === null) {
+  console.log(id)
+  if (!id) {
     router.push("/library");
   }
-
+ 
   const submitCheckout = (e) => {
     e.preventDefault();
     if (name !== "") {
