@@ -15,70 +15,27 @@ const BookDetail = () => {
   const [nationaId, setNationalId] = useState();
   const [date, setDate] = useState(defaultDate);
   const [checkOutBookDetail, setCheckOutBookDetail] = useState();
-  const [validationError, setValidationError] = useState("");
-  const [validateNationalId, setValidateNationalId] = useState("");
+
   const router = useRouter();
   const { id } = router.query;
   if (id === null) {
     router.push("/library");
   }
-  function transform(e) {
-    e.target.value = e.target.value
-      .replace(/^(\d{2})$/g, "$1-")
-      .replace(/^(\d{2}\-\d{3})$/g, "$1-");
-    if (e.target.value.length > 14) {
-      setValidationError("Phone Must Be 11 Characters For Pakistan");
-    } else {
-      setMobile(e.target.value);
-      setValidationError("");
-    }
-  }
-  const validateID = (e) => {
-    if (e.target.value.length > 11) {
-      setValidateNationalId("National Identity Must Be 11 Digits");
-    } else {
-      setNationalId(e.target.value);
-      setValidateNationalId("");
-    }
-  };
+
   const submitCheckout = (e) => {
     e.preventDefault();
-    if (name && mobile && nationaId && date !== "") {
+    if (name !== "") {
       if (userid !== undefined) {
-        axios
-          .post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/checkout/${id}`, {
-            UserID: userid,
-            name: name,
-            mobile: mobile,
-            nationalId: nationaId,
-            checkOutDate: date,
-          })
-          .then((res) => {
-            if (res.status === 200) {
-              axios
-                .post(
-                  `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/checkoutBooks/${res.data.BookId}`,
-                  {
-                    userId: userid,
-                  }
-                )
-                .then((res) => {
-                  if (res.status === 200) {
-                    toast.success("Successful Redirecting...");
-                    setName("");
-                    setMobile("");
-                    setNationalId("");
-                    setTimeout(() => {
-                      location.href = "/library";
-                    }, 500);
-                  }
-                })
-                .catch((err) => toast.error("Something went wrong"));
-            }
-          })
-          .catch((err) => {
-            toast.error("Something went wrong");
-          });
+        axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/checkinBooks/${id}`, {
+          userId: userid,
+        }).then((res) => {
+          if(res.status === 200){
+            toast.success("Check in success!");
+            setTimeout(() => {
+              location.href= "/library"
+            },500)
+          }
+        }).catch((err) => console.log(err))
       }
     }
   };
@@ -96,7 +53,8 @@ const BookDetail = () => {
       const userId = localStorage.getItem("UserPublicId")
       axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/getMe/${userId}`).then((res) => {
         setIsBookCheckedOut(res.data)
-        console.log("ye hai",isBookCheckedOut)
+        setName(res.data.name)
+        console.log("ye hai",res)
     }).catch((err) =>  console.log(err)) 
   }
   },[])
@@ -104,22 +62,11 @@ const BookDetail = () => {
   if(isBookCheckedOut !== undefined && isBookCheckedOut.checkOutBooks.find(ele => ele === id)){
    return (
     <>
-    <div className="container">
-      <div className="card mt-5 p-4 w-100">
-        <h1 className="text-center mt-2 text-danger">Book Already Checked Out</h1>
-        <p className="text-center mt-2 font-bold">You already checked out this book please check in first</p>
-          <Link className="btn btn-primary" href="/library">Go to library</Link> 
-      </div>
-    </div>
-    </>
-   )
-  }
-  return (
-    <div className="full_page">
+   <div className="full_page">
       <ToastContainer />
       <div className="container mt-5 h-100">
         <div className="card w-100 p-4">
-          <h2 className="text-center">Check Out</h2>
+          <h2 className="text-center">Check in</h2>
 
           <div className="row mt-5">
             <div className="col-md-8">
@@ -132,40 +79,12 @@ const BookDetail = () => {
                   className="form-control"
                   placeholder="ahmed@gmail.com"
                   value={name}
+                  readOnly={true}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
-              <div className="form-group mt-4">
-                <label htmlFor="email" className="form-label">
-                  Mobile number
-                </label>
-                <input
-                  type="text"
-                  onChange={transform}
-                  placeholder="Mobile Number"
-                  required
-                  className="form-control"
-                  value={mobile}
-                />
-                {validationError !== "" ? (
-                  <span className="m-2 text-danger"> {validationError}</span>
-                ) : null}
-              </div>
-              <div className="form-group mt-4">
-                <label htmlFor="email" className="form-label">
-                  National ID
-                </label>
-                <input
-                  type="number"
-                  value={nationaId}
-                  className="form-control"
-                  placeholder="11 Digits National Card Number"
-                  onChange={validateID}
-                />
-                {validateNationalId !== "" ? (
-                  <span className="m-2 text-danger"> {validateNationalId}</span>
-                ) : null}
-              </div>
+ 
+           
               <div className="form-group mt-4">
                 <label htmlFor="email" className="form-label">
                   Checkout Date
@@ -180,7 +99,7 @@ const BookDetail = () => {
               <input
                 type="submit"
                 className="btn btn-primary w-100 mt-4"
-                value="Check out"
+                value="Check in"
                 onClick={submitCheckout}
               />
             </div>
@@ -269,6 +188,19 @@ const BookDetail = () => {
         </div>
       </div>
     </div>
+    </>
+   )
+  }
+  return (
+    <>
+     <div className="container">
+      <div className="card mt-5 p-4 w-100">
+        <h1 className="text-center mt-2 text-danger">Book Already Checked In</h1>
+        <p className="text-center mt-2 font-bold">Please checkout first to check in</p>
+          <Link className="btn btn-primary" href="/library">Go to library</Link> 
+      </div>
+    </div>
+    </>
   );
 };
 

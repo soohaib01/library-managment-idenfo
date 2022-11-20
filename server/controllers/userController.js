@@ -52,9 +52,9 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const checkInBooks = asyncHandler(async (req, res) => {
   Users.findOneAndUpdate({ _id: req.body.userId }, {
-    $push: { checkInBooks: req.params.id }
+    $pull: { checkOutBooks: req.params.id }
   },
-  { new: true }, // This line makes sure that the updated document is returned
+  { new: true }, 
  (err, updatedUser) => {
    if (err) {
      console.error(err);
