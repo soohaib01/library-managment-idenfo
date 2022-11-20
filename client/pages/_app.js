@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import Router, { useRouter } from "next/router";
 import NProgress from "nprogress";
 import "../styles/Nprogress.css";
+import Head from "next/head"
 import Navbar from "../components/navigation/Navbar";
 import {UserProvider} from "../Context/userContext"
 Router.events.on("routeChangeStart", () => NProgress.start());
@@ -14,6 +15,9 @@ function MyApp({ Component, pageProps }) {
   
   return (
     <> 
+         <Head>
+          <title>IDENFO library</title>
+        </Head>
          <UserProvider>
       {showHeader && <Navbar />}
       <Component {...pageProps} />

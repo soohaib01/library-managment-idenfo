@@ -23,6 +23,7 @@ export default function Home() {
     <div>
       {isLoggedIn && (
         <>
+   
         <h1 className="text-center mt-5">You are already logged in</h1>
          <p className="text-center mt-2">If you dont redirect automatically click below</p> 
       <p className="text-center">
