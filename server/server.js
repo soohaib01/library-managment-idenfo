@@ -20,6 +20,7 @@ app.use(cors({
 }));
 
 app.get("/", (req,res) => res.send("API Deployed")) 
+
 // @Registering URLS
 app.use("/api/books", bookRoute );
 app.use("/api/users", userRoute)

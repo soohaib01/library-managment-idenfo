@@ -11,33 +11,26 @@ const BookDetail = () => {
   let defaultDate = new Date();
   defaultDate.setDate(defaultDate.getDate() + 3);
   const [name, setName] = useState();
-  const [mobile, setMobile] = useState();
-  const [nationaId, setNationalId] = useState();
   const [date, setDate] = useState(defaultDate);
   const [checkOutBookDetail, setCheckOutBookDetail] = useState();
 
   const router = useRouter();
   const { id } = router.query;
-  console.log(id)
-  if (!id) {
+  if (id === null) {
     router.push("/library");
   }
  
   const submitCheckout = (e) => {
     e.preventDefault();
-    if (name !== "") {
-      if (userid !== undefined) {
-        axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/checkinBooks/${id}`, {
-          userId: userid,
-        }).then((res) => {
-          if(res.status === 200){
-            toast.success("Check in success!");
-            setTimeout(() => {
-              location.href= "/library"
-            },500)
-          }
-        }).catch((err) => console.log(err))
-      }
+    if(typeof window !== undefined){
+      axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/checkinBooks/${id}`, {
+        userId: userid
+      }).then((res) => {
+        toast.success("Check in complete")
+        setTimeout(() => {
+          location.href= "/library"
+        },500)
+      })
     }
   };
   useEffect(() => {
@@ -55,19 +48,31 @@ const BookDetail = () => {
       axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/getMe/${userId}`).then((res) => {
         setIsBookCheckedOut(res.data)
         setName(res.data.name)
-        console.log("ye hai",res)
+
     }).catch((err) =>  console.log(err)) 
   }
-  },[])
-
-  if(isBookCheckedOut !== undefined && isBookCheckedOut.checkOutBooks.find(ele => ele === id)){
-   return (
+  },[id])
+  if(isBookCheckedOut !== undefined && isBookCheckedOut.checkOutBooks.find(ele => ele !== id)){
+  return (
     <>
-   <div className="full_page">
+        <div className="container">
+      <div className="card mt-5 p-4 w-100">
+        <h1 className="text-center mt-2 text-danger">Book Already Checked in</h1>
+        <p className="text-center mt-2 font-bold"> Please check Out first</p>
+          <Link className="btn btn-primary" href="/library">Go to library</Link> 
+      </div>
+    </div>
+    </>
+  )
+  
+  }
+  return (
+    <>
+    <div className="full_page">
       <ToastContainer />
       <div className="container mt-5 h-100">
         <div className="card w-100 p-4">
-          <h2 className="text-center">Check in</h2>
+          <h2 className="text-center">Check In</h2>
 
           <div className="row mt-5">
             <div className="col-md-8">
@@ -77,15 +82,12 @@ const BookDetail = () => {
                 </label>
                 <input
                   type="text"
+                  readOnly={true}
                   className="form-control"
                   placeholder="ahmed@gmail.com"
                   value={name}
-                  readOnly={true}
-                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
- 
-           
               <div className="form-group mt-4">
                 <label htmlFor="email" className="form-label">
                   Checkout Date
@@ -100,7 +102,7 @@ const BookDetail = () => {
               <input
                 type="submit"
                 className="btn btn-primary w-100 mt-4"
-                value="Check in"
+                value="Check In"
                 onClick={submitCheckout}
               />
             </div>
@@ -187,18 +189,6 @@ const BookDetail = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    </>
-   )
-  }
-  return (
-    <>
-     <div className="container">
-      <div className="card mt-5 p-4 w-100">
-        <h1 className="text-center mt-2 text-danger">Book Already Checked In</h1>
-        <p className="text-center mt-2 font-bold">Please checkout first to check in</p>
-          <Link className="btn btn-primary" href="/library">Go to library</Link> 
       </div>
     </div>
     </>

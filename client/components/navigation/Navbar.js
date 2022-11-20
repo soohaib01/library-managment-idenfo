@@ -32,7 +32,7 @@ const Navbar = () => {
       <div className="d-flex" role="search">
       <div className="dropdown mr-4">
   <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-    {reUpdateComponent}
+    Hello
   </button>
   <ul className="dropdown-menu">
     <li><Link className="dropdown-item" href="/checkout/history">History</Link></li>

@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import axios from "axios"
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css';
 const BookDetail = () => {
   const router = useRouter()
   const [bookDetail,setBookDetail] = useState()
@@ -38,7 +40,11 @@ const BookDetail = () => {
    </div>
    </div>
      ) : (
-      <h1>Loading</h1>
+      <>
+      <div className='container mt-5'>
+      <Skeleton count={5} height={100} />
+      </div>
+      </>
      )}
     </>
   )
