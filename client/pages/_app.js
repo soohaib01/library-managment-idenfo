@@ -1,5 +1,4 @@
 import "../styles/globals.css";
-import Layout from "../components/navigation/Layout";
 import Router, { useRouter } from "next/router";
 import NProgress from "nprogress";
 import "../styles/Nprogress.css";
@@ -14,10 +13,8 @@ function MyApp({ Component, pageProps }) {
   const showHeader = router.pathname === "/" || router.pathname === "/auth/registration" ?  false : true;
   
   return (
-    <>
+    <> 
          <UserProvider>
-
-      
       {showHeader && <Navbar />}
       <Component {...pageProps} />
       </UserProvider>

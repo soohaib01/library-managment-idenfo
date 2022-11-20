@@ -11,13 +11,17 @@ const checkoutSchema = mongoose.Schema({
     required: [true, "Please Provide Username"],
   },
   Mobile: {
-    type: Number,
+    type: String,
     required: [true, "Please Provide Mobile Number"],
   },
   NationalID: {
-    type: Number,
+    type: String,
     required: [true, "Please Provide Identification Number"],
   },
+  BookId:{
+    type: String,
+    required: [true, "Please Provide Book Number"],
+  }
 },{
   timestamps: true
 });

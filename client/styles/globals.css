@@ -7,6 +7,9 @@ body{
   height: 100vh;
   background-color: #fff!important;
 }
+.full_page{
+  height: 100vh !important;
+}
 .Login__page__container{
 display: flex;
 height: 100vh;
@@ -20,14 +23,25 @@ align-items: center;
 }
 
 .btn-primary {
-  background: #2B6CB0 !important;
-  border-color:#2B6CB0 !important ;
+  background: #314E89 !important;
+  border-color:#314E89 !important ;
   outline: none !important;
 }
-
+.btn-secondary , .dropdown-togglee{
+  background-color: #E2E8F0 !important ;
+  border-color:#E2E8F0 !important ;
+  outline: none !important;
+  color: black !important;
+}
 .card{
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px !important;
 }
+.card:hover{
+  cursor: pointer;
+  border: 1.3px solid #314E89 !important;
+  box-shadow: none !important;
+}
+
 
 .navbar{
   background-color:  transparent !important;

@@ -1,10 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const {registerUser,loginUser,checkInBooks} = require('../controllers/userController')
+const {registerUser,loginUser,checkInBooks,checkOutBooks,getMe} = require('../controllers/userController')
+
+
 
 router.post("/register", registerUser)
 router.post("/login", loginUser)
-router.put("/checkinBooks/:id", checkInBooks)
+router.post("/checkinBooks/:id", checkInBooks)
+router.post("/checkoutBooks/:id", checkOutBooks)
+router.get("/getMe/:id",getMe)
+
 
 
 module.exports = router;

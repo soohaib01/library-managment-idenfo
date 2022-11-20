@@ -1,9 +1,11 @@
 import React from 'react'
-
-const Register = () => {
+import Register from '../../../components/auth/Register'
+const Registration = () => {
   return (
-    <div>Register</div>
+    <div>
+      <Register />
+    </div>
   )
 }
 
-export default Register
+export default Registration

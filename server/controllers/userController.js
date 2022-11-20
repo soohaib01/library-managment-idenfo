@@ -19,6 +19,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (newUser) {
     res.status(201).json({
       message: "User Registered",
+      userName: newUser.name,
       userId: newUser._id,
     });
   } else {
@@ -35,6 +36,7 @@ const loginUser = asyncHandler(async (req, res) => {
   ) {
     res.json({
       userId: authenticateUser._id,
+      userName: authenticateUser.name,
       email: authenticateUser.email,
       token: generateToken(authenticateUser._id)
     });
@@ -49,13 +51,41 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 const checkInBooks = asyncHandler(async (req, res) => {
-  const userId = req.body.userId;
-  const getAUser = await Users.findById(userId);
-  const updateCheckInBooks = await Users.updateOne({
-    $push: { checkInBooks: req.params.id },
-  });
-  res.send(updateCheckInBooks);
+  Users.findOneAndUpdate({ _id: req.body.userId }, {
+    $push: { checkInBooks: req.params.id }
+  },
+  { new: true }, // This line makes sure that the updated document is returned
+ (err, updatedUser) => {
+   if (err) {
+     console.error(err);
+     res.status(500).send('Error: ' + err);
+   } else {
+     res.json(updatedUser);
+   }
+ });
+
 });
+
+const checkOutBooks = asyncHandler(async (req, res) => {
+  Users.findOneAndUpdate({ _id: req.body.userId }, {
+    $push: { checkOutBooks: req.params.id }
+  },
+  { new: true }, 
+ (err, updatedUser) => {
+   if (err) {
+     console.error(err);
+     res.status(500).send('Error: ' + err);
+   } else {
+     res.json(updatedUser);
+   }
+ });
+});
+
+const getMe = asyncHandler(async(req,res) => {
+  const currentUser = await Users.findById(req.params.id)
+  res.send(currentUser)
+})
+
 
 const generateToken = (id) => {
   return jwt.sign({id},process.env.SECRET_KEY, {
@@ -66,4 +96,6 @@ module.exports = {
   registerUser,
   loginUser,
   checkInBooks,
+  getMe,
+  checkOutBooks
 };

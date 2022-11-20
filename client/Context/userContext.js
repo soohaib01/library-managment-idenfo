@@ -1,19 +1,33 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
+const UserContext = createContext();
 
-const UserContext = createContext()
-
-export function UserProvider({children}){
-    const [isLoggedIn,setIsLoggedIn] = useState(false);
-    const userSession = (loggedInState) => {
-        setIsLoggedIn(loggedInState)
+export function UserProvider({ children }) {
+  const [isLoggedIn, setIsLoggedIn] = useState();
+  const [userName,setUserName] = useState();
+  const [userid,setUserid] = useState();
+  useEffect(() => {
+    const spinSession = localStorage.getItem("UserPublicId")
+    const fetchUserName = localStorage.getItem("UserPublicName")
+    if (spinSession) {
+      setUserName(fetchUserName)
+      setUserid(spinSession)
+      setIsLoggedIn(true);
+    } else {
+      setUserName(null)
+      setIsLoggedIn(false);
     }
-    return (
-        <UserContext.Provider value={{isLoggedIn,userSession}}>
-            {children}
-        </UserContext.Provider>
-    )
-}
+  }, []);
+  console.log(userName)
 
+  const userSession = (loggedInState) => {
+    setIsLoggedIn(loggedInState);
+  };
+  return (
+    <UserContext.Provider value={{ isLoggedIn, userSession,userName,userid }}>
+      {children}
+    </UserContext.Provider>
+  );
+}
 
 export default UserContext;

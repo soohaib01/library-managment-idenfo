@@ -6,7 +6,7 @@ import UserContext from "../../Context/userContext";
 import { useContext, useState } from "react";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-const Login = () => {
+const Register = () => {
   const { isLoggedIn, userSession } = useContext(UserContext);
   const router = useRouter();
   const {
@@ -18,11 +18,12 @@ const Login = () => {
 
   const onSubmit = (data) => {
     axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/login`, data)
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/register`, data)
       .then((res) => {
         console.log(res.data);
         if (res.data.userId) {
           userSession(true);
+          console.log(res.data)
           if (typeof window !== undefined) {
             localStorage.setItem("UserPublicId",res.data.userId);
             localStorage.setItem("UserPublicName",res.data.userName);
@@ -30,7 +31,7 @@ const Login = () => {
           location.href = "/library"
         }
           else{
-            toast.error("Email or Password Invalid")
+            toast.error("Beep Beep Invalid Details!")
           }
       })
       .catch((err) => console.log(err));
@@ -41,10 +42,27 @@ const Login = () => {
       <ToastContainer />
       <div className="card p-4" style={{ width: "25rem" }}>
         <div className="card-body text-center">
-          <h3 className="text-center">Library Management</h3>``
+          <h3 className="text-center">Library Management <span className="text-primary">Register</span></h3>
         </div>
         <div className="row">
           <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="col-md-12">
+              <label htmlFor="email" className="form-label">
+                Full Name
+              </label>
+              <input
+                className="form-control"
+                {...register("name", { required: true })}
+                placeholder="Ahmed Khan"
+                
+              />
+              {errors.name && (
+                <span className="text-center mt-2 text-danger">
+                  Name is required
+                </span>
+              )}
+            </div>
+           
             <div className="col-md-12 mt-4">
               <label htmlFor="email" className="form-label">
                 Email address
@@ -79,17 +97,17 @@ const Login = () => {
             </div>
 
             <div className="col-md-12">
-              <input type="submit" value="Sign in" className="btn btn-primary w-100 mt-4" />{" "}
+              <input type="submit" value="Sign up" className="btn btn-primary w-100 mt-4" />{" "}
             </div>
           </form>
           <div className="col-md-12 mt-4">
             <p>
-              Don't Have An Account ?{" "}
+              Already Have An Account ?{" "}
               <Link
                 className="text-primary stretched-llink"
-                href="/auth/registration"
+                href="/"
               >
-                Register
+                Login
               </Link>{" "}
             </p>
           </div>
@@ -99,4 +117,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
