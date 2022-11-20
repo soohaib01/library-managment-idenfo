@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Link from "next/link";
+import Alert from "../../components/alert/Alert";
 const BookDetail = () => {
   const { userid } = useContext(UserContext);
   const [isBookCheckedOut,setIsBookCheckedOut] = useState();
@@ -104,6 +105,7 @@ const BookDetail = () => {
   if(isBookCheckedOut !== undefined && isBookCheckedOut.checkOutBooks.find(ele => ele === id)){
    return (
     <>
+    <Alert />
     <div className="container">
       <div className="card mt-5 p-4 w-100">
         <h1 className="text-center mt-2 text-danger">Book Already Checked Out</h1>
@@ -117,6 +119,8 @@ const BookDetail = () => {
   return (
     <div className="full_page">
       <ToastContainer />
+      <Alert />
+
       <div className="container mt-5 h-100">
         <div className="card w-100 p-4">
           <h2 className="text-center">Check Out</h2>
