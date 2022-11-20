@@ -15,8 +15,10 @@ connectedToDB()
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
-app.use(cors({
-    origin: 'https://seahorse-app-sqclk.ondigitalocean.app/'
+app.use(cors({        
+    origin: 'https://seahorse-app-sqclk.ondigitalocean.app/',
+    "Access-Control-Allow-Origin": "*"
+
 }));
 
 app.get("/", (req,res) => res.send("API Deployed")) 
