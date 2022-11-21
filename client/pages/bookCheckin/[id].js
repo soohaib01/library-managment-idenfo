@@ -52,23 +52,12 @@ const BookDetail = () => {
     }).catch((err) =>  console.log(err)) 
   }
   },[id])
-  if(isBookCheckedOut !== undefined && isBookCheckedOut.checkOutBooks.find(ele => ele !== id)){
+
+
+  if(isBookCheckedOut !== undefined && isBookCheckedOut.checkOutBooks.find(ele => ele === id)){
   return (
     <>
-        <div className="container">
-      <div className="card mt-5 p-4 w-100">
-        <h1 className="text-center mt-2 text-danger">Book Already Checked in</h1>
-        <p className="text-center mt-2 font-bold"> Please check Out first</p>
-          <Link className="btn btn-primary" href="/library">Go to library</Link> 
-      </div>
-    </div>
-    </>
-  )
-  
-  }
-  return (
-    <>
-    <div className="full_page">
+   <div className="full_page">
       <ToastContainer />
       <div className="container mt-5 h-100">
         <div className="card w-100 p-4">
@@ -189,6 +178,19 @@ const BookDetail = () => {
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    </>
+  )
+  
+  }
+  return (
+    <> 
+    <div className="container">
+      <div className="card mt-5 p-4 w-100">
+        <h1 className="text-center mt-2 text-danger">Book Already Checked in</h1>
+        <p className="text-center mt-2 font-bold"> Please check Out first</p>
+          <Link className="btn btn-primary" href="/library">Go to library</Link> 
       </div>
     </div>
     </>

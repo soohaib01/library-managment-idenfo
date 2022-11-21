@@ -16,7 +16,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
 app.use(cors({        
-    origin: 'https://seahorse-app-sqclk.ondigitalocean.app/',
+    // origin: 'https://seahorse-app-sqclk.ondigitalocean.app/',
+    origin: 'http://localhost:3000',
     "Access-Control-Allow-Origin": "*"
 
 }));
